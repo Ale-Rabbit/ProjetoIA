@@ -23,7 +23,7 @@ public class AgenteReciclador {
         ag.setCapacidade(ag.getCapacidade() + 1);
         matriz[ag.getLinha()][ag.getColuna()] = "-";
         ag.setLinha(ag.getLinha());
-        ag.setColuna(ag.getColuna());
+        ag.setColuna(ag.getColuna() - 1);
         matriz[ag.getLinha()][ag.getColuna() - 1] = ag.getNome();
     }
 
@@ -35,12 +35,12 @@ public class AgenteReciclador {
                     moveAgenteParaEsquerda(matriz, ag);
                 }
             }else if(ag.getNome() == "Ae"){
-                // Olha a coluna de baixo
+                // Olha a coluna da esquerda
                 if(matriz[ag.getLinha()][ag.getColuna() - 1] == "E"){
                     moveAgenteParaEsquerda(matriz, ag);
                 }
             }else {
-            // Olha a coluna de baixo
+            // Olha a coluna da esquerda
                 if (matriz[ag.getLinha()][ag.getColuna() - 1] == "O") {
                     moveAgenteParaEsquerda(matriz, ag);
                 }

@@ -3,6 +3,7 @@ public class Main {
 
         Ambiente ambiente = new Ambiente();
 
+        ambiente.populaMatriz();
         ambiente.exibeAmbiente();
     }
 }
