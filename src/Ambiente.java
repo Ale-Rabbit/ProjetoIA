@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Ambiente {
 
     private String[][] local;
@@ -5,15 +7,19 @@ public class Ambiente {
     public Ambiente() {
         this.local = new String[12][15];
 
+        AgenteReciclador agenteSeco = new AgenteReciclador("As", 0, 7);
+        AgenteReciclador agenteOrganico = new AgenteReciclador("Ao", 0, 6);
+        AgenteReciclador agenteEletronico = new AgenteReciclador("Ae", 0, 8);
+
         local[0][0] = "C";
         local[0][1] = "C";
         local[0][2] = "C";
         local[0][3] = "C";
         local[0][4] = "C";
         local[0][5] = "C";
-        local[0][6] = "-";
-        local[0][7] = "-";
-        local[0][8] = "-";
+        local[0][6] = agenteOrganico.getNome();
+        local[0][7] = agenteSeco.getNome();
+        local[0][8] = agenteEletronico.getNome();
         local[0][9] = "C";
         local[0][10] = "C";
         local[0][11] = "C";
@@ -187,15 +193,42 @@ public class Ambiente {
         local[11][3] = "C";
         local[11][4] = "C";
         local[11][5] = "C";
-        local[11][6] = "E";
-        local[11][7] = "S";
-        local[11][8] = "O";
+        local[11][6] = "Ls";
+        local[11][7] = "Le";
+        local[11][8] = "Lo";
         local[11][9] = "C";
         local[11][10] = "C";
         local[11][11] = "C";
         local[11][12] = "C";
         local[11][13] = "C";
         local[11][14] = "C";
+    }
+
+    Random aleatorio = new Random();
+
+    public String geraValores() {
+        int propabilidade = aleatorio.nextInt(20);
+
+        if (propabilidade >= 0 && propabilidade <= 5) {
+            return "S";
+        } else if (propabilidade >= 6 && propabilidade <= 10) {
+                return "E";
+        } else if (propabilidade >= 11 && propabilidade <= 15) {
+                return "O";
+        }
+        return "-";
+    }
+
+
+
+    public void movimentoAgente(){
+        int l = 0;
+        int c = 0;
+        for (l = 0; l <= 11; l++) {
+            for (c = 0; c <= 14; c++) {
+
+            }
+        }
     }
 
     public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
@@ -205,32 +238,37 @@ public class Ambiente {
     public static final String ANSI_RESET = "\u001B[0m";
 
     public void exibeAmbiente() {
-        var l = 0;
-        var c = 0;
+        int l = 0;
+        int c = 0;
         for (l = 0; l <= 11; l++) {
             for (c = 0; c <= 14; c++) {
+                String testaEspaco = this.local[l][c].length() == 2 ? "" : " ";
+
+                if (this.local[l][c] == "-" && c != 6 && c != 7 && c != 8){
+                    this.local[l][c] = geraValores();
+                }
                 if (c == 14) {
                     if(this.local[l][c].equalsIgnoreCase("C")) {
                         System.out.print(ANSI_YELLOW_BACKGROUND + " " + this.local[l][c] + " " + ANSI_RESET + "\n");
 
                     }else {
-                        System.out.print(" " + this.local[l][c] + " " + "\n");
+                        System.out.print(" " + this.local[l][c] + testaEspaco + "\n");
                     }
                 } else {
                     if(this.local[l][c].equalsIgnoreCase("C") ) {
-                        System.out.print(ANSI_YELLOW_BACKGROUND + " " + this.local[l][c] + " " + ANSI_RESET + " ");
+                        System.out.print(ANSI_YELLOW_BACKGROUND + " " + this.local[l][c] + testaEspaco + ANSI_RESET + " ");
 
                     }else if(this.local[l][c].equalsIgnoreCase("S")){
-                        System.out.print(ANSI_GREEN_BACKGROUND + " " + this.local[l][c] + " " + ANSI_RESET + " ");
+                        System.out.print(ANSI_GREEN_BACKGROUND + " " + this.local[l][c] + testaEspaco + ANSI_RESET + " ");
 
                     }else if(this.local[l][c].equalsIgnoreCase("E")) {
-                        System.out.print(ANSI_GREY_BACKGROUND + " " + this.local[l][c] + " " + ANSI_RESET + " ");
+                        System.out.print(ANSI_GREY_BACKGROUND + " " + this.local[l][c] + testaEspaco + ANSI_RESET + " ");
 
                     }else if(this.local[l][c].equalsIgnoreCase("O")) {
-                        System.out.print(ANSI_MAGENTA_BACKGROUND + " " + this.local[l][c] + " " + ANSI_RESET + " ");
+                        System.out.print(ANSI_MAGENTA_BACKGROUND + " " + this.local[l][c] + testaEspaco + ANSI_RESET + " ");
 
                     }else {
-                        System.out.print(" " + this.local[l][c] + "  ");
+                        System.out.print(testaEspaco + this.local[l][c] + "  ");
                     }
                 }
             }
