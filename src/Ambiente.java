@@ -112,5 +112,8 @@ public class Ambiente {
             }
 
         }
+        agenteSeco.teste(this.local, agenteSeco);
+        agenteOrganico.teste(this.local, agenteOrganico);
+        agenteEletronico.teste(this.local, agenteEletronico);
     }
 }
