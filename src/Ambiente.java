@@ -49,30 +49,40 @@ public class Ambiente {
     }
 
     public void populaMatriz() {
-        int l = 0;
-        int c = 0;
-        for (l = 0; l <= 11; l++) {
-            for (c = 0; c <= 14; c++) {
 
-                if ((l == 0 || l == 2 || l == 3 || l == 5 || l == 6 || l == 8 || l == 9 || l == 11)
-                        && (c <= 5 || c >= 9)) {
+        for (int l = 0; l <= 11; l++) {
+            for (int c = 0; c <= 14; c++) {
+
+                Boolean isCampoParaCasas = (l == 0 || l == 2 || l == 3 || l == 5 ||
+                                            l == 6 || l == 8 || l == 9 || l == 11) &&
+                                            (c <= 5 || c >= 9);
+
+                Boolean isCampoParaAvenida = (l != 0 && l != 11) && (c >= 6 || c != 7 || c != 8);
+
+                if (isCampoParaCasas) {
                     this.local[l][c] = "C";
-                } else if ((l != 0 && l != 11) && (c >= 6 || c != 7 || c != 8)) {
+                } else if (isCampoParaAvenida) {
                     this.local[l][c] = "-";
                 }
-                if (this.local[l][c] == "-" && c != 6 && c != 7 && c != 8) {
+
+                Boolean isCampoParaLixo = this.local[l][c] == "-" && c != 6 && c != 7 && c != 8;
+
+                if (isCampoParaLixo) {
                     this.local[l][c] = geraLixo();
                 }
+
             }
         }
+
     }
 
     public void exibeAmbiente() {
-        int l = 0;
-        int c = 0;
-        for (l = 0; l <= 11; l++) {
-            for (c = 0; c <= 14; c++) {
-                String testaUltimoElemento = c == 14 ? "\n" : " ";
+
+
+        for (int l = 0; l <= 11; l++) {
+            for (int c = 0; c <= 14; c++) {
+
+                String testaUltimoElemento = (c == 14) ? "\n" : " ";
                 String testaEspaco = local[l][c].length() == 2 ? "" : " ";
 
                 if(this.local[l][c].equalsIgnoreCase("C") ) {
@@ -96,11 +106,11 @@ public class Ambiente {
                 }else if (this.local[l][c].equalsIgnoreCase("Le")){
                     System.out.print(pintaCinza +  this.local[l][c] + " "  + resetaCor + testaUltimoElemento);
 
-                }else {
+                } else {
                     System.out.print(" " + this.local[l][c] + testaEspaco + testaUltimoElemento);
                 }
             }
+
         }
-        System.out.println("");
     }
 }

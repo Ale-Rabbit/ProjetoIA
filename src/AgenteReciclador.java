@@ -1,4 +1,5 @@
 public class AgenteReciclador {
+
     public String nome;
     public int capacidade;
     public int linha;
