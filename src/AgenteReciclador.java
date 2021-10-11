@@ -1,3 +1,9 @@
+// ajustar movimentos para as direções
+// colocar limeites da matriz
+// novo método para incrementar a capacidade
+// nova classe lixeira
+// concatenar valores, caso não seja o lixo correspondente
+
 public class AgenteReciclador {
 
     public String nome;
@@ -25,7 +31,7 @@ public class AgenteReciclador {
         matriz[ag.getLinha()][ag.getColuna()] = "-";
         ag.setLinha(ag.getLinha());
         ag.setColuna(ag.getColuna() - 1);
-        matriz[ag.getLinha()][ag.getColuna() - 1] = ag.getNome();
+        matriz[ag.getLinha()][ag.getColuna()] = ag.getNome();
     }
 
     public void moveAgenteParaDireita(String[][] matriz, AgenteReciclador ag){
@@ -33,7 +39,7 @@ public class AgenteReciclador {
         matriz[ag.getLinha()][ag.getColuna()] = "-";
         ag.setLinha(ag.getLinha());
         ag.setColuna(ag.getColuna() + 1);
-        matriz[ag.getLinha()][ag.getColuna() + 1] = ag.getNome();
+        matriz[ag.getLinha()][ag.getColuna()] = ag.getNome();
     }
 
     public void moveAgenteParaCima(String[][] matriz, AgenteReciclador ag){
@@ -41,7 +47,7 @@ public class AgenteReciclador {
         matriz[ag.getLinha()][ag.getColuna()] = "-";
         ag.setLinha(ag.getLinha() - 1);
         ag.setColuna(ag.getColuna());
-        matriz[ag.getLinha() - 1][ag.getColuna()] = ag.getNome();
+        matriz[ag.getLinha()][ag.getColuna()] = ag.getNome();
     }
 
     public void moveAgenteParaBaixo(String[][] matriz, AgenteReciclador ag){
@@ -49,7 +55,7 @@ public class AgenteReciclador {
         matriz[ag.getLinha()][ag.getColuna()] = "-";
         ag.setLinha(ag.getLinha() + 1);
         ag.setColuna(ag.getColuna());
-        matriz[ag.getLinha() + 1][ag.getColuna()] = ag.getNome();
+        matriz[ag.getLinha()][ag.getColuna()] = ag.getNome();
     }
 
     public void teste(String[][] matriz, AgenteReciclador ag) {
@@ -68,6 +74,8 @@ public class AgenteReciclador {
             }else {
             // Olha a coluna da esquerda
                 if (matriz[ag.getLinha()][ag.getColuna() - 1] == "O") {
+                    moveAgenteParaEsquerda(matriz, ag);
+                }else{
                     moveAgenteParaEsquerda(matriz, ag);
                 }
             }

@@ -77,8 +77,6 @@ public class Ambiente {
     }
 
     public void exibeAmbiente() {
-
-
         for (int l = 0; l <= 11; l++) {
             for (int c = 0; c <= 14; c++) {
 
@@ -112,8 +110,8 @@ public class Ambiente {
             }
 
         }
-        agenteSeco.teste(this.local, agenteSeco);
+        //agenteSeco.teste(this.local, agenteSeco);
         agenteOrganico.teste(this.local, agenteOrganico);
-        agenteEletronico.teste(this.local, agenteEletronico);
+        //sagenteEletronico.teste(this.local, agenteEletronico);
     }
 }

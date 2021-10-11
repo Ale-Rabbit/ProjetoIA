@@ -7,11 +7,13 @@ public class Main {
 
         ambiente.populaMatriz();
         ambiente.exibeAmbiente();
+        System.out.println("\n");
+        String input;
 
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 10d; i++){
             ambiente.exibeAmbiente();
-            System.out.println("\n\n\n");
-            String input = scanner.nextLine();
+            System.out.println("\n");
+            input = scanner.next();
         }
     }
 
