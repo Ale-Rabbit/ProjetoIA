@@ -85,10 +85,20 @@ public class Ambiente {
 
         if (isFirstTime){
             isFirstTime = false;
-        }else {
-            //agenteSeco.teste(this.local, agenteSeco);
-            agenteOrganico.teste(this.matriz, agenteOrganico);
-            //sagenteEletronico.teste(this.local, agenteEletronico);
+        } else {
+
+           Boolean executarAgenteEletronico = false;
+           Boolean executarAgenteSeco = agenteOrganico.teste(this.matriz, agenteOrganico);
+
+
+           if (executarAgenteSeco){
+                executarAgenteEletronico = agenteSeco.teste(this.matriz, agenteSeco);
+           }
+
+            if (executarAgenteEletronico){
+                agenteEletronico.teste(this.matriz, agenteEletronico);
+            }
+
         }
 
         for (int l = 0; l <= 11; l++) {

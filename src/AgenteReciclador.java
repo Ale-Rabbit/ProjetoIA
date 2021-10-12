@@ -1,8 +1,3 @@
-// ajustar movimentos para as direções
-// colocar limites da matriz
-// novo método para incrementar a capacidade
-// nova classe lixeira
-// concatenar valores, caso não seja o lixo correspondente
 
 public class AgenteReciclador {
 
@@ -41,8 +36,30 @@ public class AgenteReciclador {
 
     }
 
+    public void irParaLixeira(String[][] matriz, AgenteReciclador agente){
+        if(agente.getLinha() < 10) {
+            if (agente.getColuna() < 6) {
+                moveAgenteParaDireita(matriz, agente);
+            } else if (agente.getColuna() >= 7) {
+                moveAgenteParaEsquerda(matriz, agente);
+            } else {
+                moveAgenteParaBaixo(matriz, agente);
+            }
+        }else {
+            if(agente.getTipoLixeira() == matriz[agente.getLinha() + 1][agente.getColuna()]) {
+                agente.setCapacidade(0);
+                //metodo da lixeira para somar detritos
+            }else {
+                moveAgenteParaDireita(matriz, agente);
+            }
+        }
+    }
+
     public void moveAgenteParaEsquerda(String[][] matriz, AgenteReciclador agente){
-        agente.recolheLixo(agente, matriz[agente.getLinha()][agente.getColuna() - 1]);
+
+        if(agente.temCapacidade(agente.getCapacidade())){
+            agente.recolheLixo(agente, matriz[agente.getLinha()][agente.getColuna() - 1]);
+        }
 
         if (matriz[agente.getLinha()][agente.getColuna()].length() == 3){
             matriz[agente.getLinha()][agente.getColuna()] = getApenasLixo(matriz[agente.getLinha()][agente.getColuna()]);
@@ -60,7 +77,10 @@ public class AgenteReciclador {
     }
 
     public void moveAgenteParaDireita(String[][] matriz, AgenteReciclador agente){
-        agente.recolheLixo(agente, matriz[agente.getLinha()][agente.getColuna() + 1]);
+
+        if(agente.temCapacidade(agente.getCapacidade())) {
+            agente.recolheLixo(agente, matriz[agente.getLinha()][agente.getColuna() + 1]);
+        }
 
         if (matriz[agente.getLinha()][agente.getColuna()].length() == 3){
             matriz[agente.getLinha()][agente.getColuna()] = getApenasLixo(matriz[agente.getLinha()][agente.getColuna()]);
@@ -108,36 +128,66 @@ public class AgenteReciclador {
     }
 
     Boolean chegouNoFimDaRua = false;
-    public void teste(String[][] matriz, AgenteReciclador agente) {
-
-        Boolean isAgenteEmLinhaEntreCasas = agente.getLinha() == 1 ||
-                                            agente.getLinha() == 4 ||
-                                            agente.getLinha() == 7 ||
-                                            agente.getLinha() == 10;
+    Boolean limpouTodaRua = false;
+    public Boolean teste(String[][] matriz, AgenteReciclador agente) {
 
 
-        if(isAgenteEmLinhaEntreCasas) {
+            Boolean retorno = false;
 
-            if(agente.getColuna() > 0 && !chegouNoFimDaRua) {
-                moveAgenteParaEsquerda(matriz, agente);
+        if(agente.temCapacidade(agente.getCapacidade())) {
 
-            } else {
-                chegouNoFimDaRua = true;
+            Boolean isAgenteEmLinhaEntreCasas = agente.getLinha() == 1 ||
+                    agente.getLinha() == 4 ||
+                    agente.getLinha() == 7 ||
+                    agente.getLinha() == 10;
 
-                if(agente.getColuna() < 14) {
 
-                    moveAgenteParaDireita(matriz, agente);
+            if (isAgenteEmLinhaEntreCasas) {
 
-                    if(agente.getColuna() == 14) {
-                        chegouNoFimDaRua = false;
+                if (agente.getColuna() > 0 && !chegouNoFimDaRua) {
+
+                    //moveAgenteParaEsquerda(matriz, agente);
+
+                    if (agente.getColuna() == 6 && limpouTodaRua) {
+                        moveAgenteParaBaixo(matriz, agente);
+                        limpouTodaRua = false;
+                    } else {
+                        moveAgenteParaEsquerda(matriz, agente);
+                    }
+
+                } else {
+                    chegouNoFimDaRua = true;
+
+                    if (agente.getColuna() < 14) {
+
+                        moveAgenteParaDireita(matriz, agente);
+
+                        if (agente.getColuna() == 14) {
+                            chegouNoFimDaRua = false;
+                            limpouTodaRua = true;
+                            retorno = true;
+                        }
+
                     }
                 }
-            }
-        }else {
-            moveAgenteParaBaixo(matriz, agente);
+            } else {
+                moveAgenteParaBaixo(matriz, agente);
 
-            //moveAgenteParaCima(matriz, agente);
+                //moveAgenteParaCima(matriz, agente);
+            }
+        }else{
+            agente.irParaLixeira(matriz, agente);
         }
+        if (agente.getNome().equalsIgnoreCase("Ao") && agente.getLinha() == 0 && agente.getColuna() == 6){
+            retorno = true;
+        } else if (agente.getNome().equalsIgnoreCase("Ae") && agente.getLinha() == 0 && agente.getColuna() == 8){
+            retorno = true;
+        } else if(agente.getNome().equalsIgnoreCase("As") && agente.getLinha() == 0 && agente.getColuna() == 7){
+            retorno = true;
+        }
+
+        return retorno;
+
     }
 
     public String getNome() {
