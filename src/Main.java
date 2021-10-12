@@ -10,7 +10,6 @@ public class Main {
         System.out.println("Matriz inicial:");
 
         ambiente.populaMatriz();
-        ambiente.exibeAmbiente();
 
         System.out.println("\nDigite para os agentes andarem na matriz\n");
 

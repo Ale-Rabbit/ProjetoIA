@@ -3,10 +3,11 @@ import java.util.Random;
 public class Ambiente {
 
     private String[][] matriz;
+    Boolean isFirstTime = true;
 
-    AgenteReciclador agenteSeco = new AgenteReciclador("As", 0, 7);
-    AgenteReciclador agenteOrganico = new AgenteReciclador("Ao", 0, 6);
-    AgenteReciclador agenteEletronico = new AgenteReciclador("Ae", 0, 8);
+    AgenteReciclador agenteSeco = new AgenteReciclador("As", 0, 7, "S", "Ls");
+    AgenteReciclador agenteOrganico = new AgenteReciclador("Ao", 0, 6, "O", "Lo");
+    AgenteReciclador agenteEletronico = new AgenteReciclador("Ae", 0, 8, "E", "Le");
 
     public static final String pintaAmarelo = "\u001B[43m";
     public static final String pintaVerde = "\u001B[42m";
@@ -82,6 +83,14 @@ public class Ambiente {
 
     public void exibeAmbiente() {
 
+        if (isFirstTime){
+            isFirstTime = false;
+        }else {
+            //agenteSeco.teste(this.local, agenteSeco);
+            agenteOrganico.teste(this.matriz, agenteOrganico);
+            //sagenteEletronico.teste(this.local, agenteEletronico);
+        }
+
         for (int l = 0; l <= 11; l++) {
             for (int c = 0; c <= 14; c++) {
 
@@ -109,16 +118,23 @@ public class Ambiente {
                 }else if (this.matriz[l][c].equalsIgnoreCase("Le")){
                     System.out.print(pintaCinza +  this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
 
-                } else {
+                }else if(this.matriz[l][c].length() == 3){
+
+                    if(this.matriz[l][c].equalsIgnoreCase("AsO") || this.matriz[l][c].equalsIgnoreCase("AeO")){
+                        System.out.print(pintaVermelho + this.matriz[l][c] + resetaCor + testaUltimoElemento);
+
+                    }else if(this.matriz[l][c].equalsIgnoreCase("AsE") || this.matriz[l][c].equalsIgnoreCase("AoE")){
+                        System.out.print(pintaCinza + this.matriz[l][c] + resetaCor + testaUltimoElemento);
+
+                    }else if(this.matriz[l][c].equalsIgnoreCase("AeS") || this.matriz[l][c].equalsIgnoreCase("AoS")) {
+                        System.out.print(pintaVerde + this.matriz[l][c] + resetaCor + testaUltimoElemento);
+
+                    }
+                }else {
                     System.out.print(" " + this.matriz[l][c] + testaEspaco + testaUltimoElemento);
                 }
             }
 
         }
-
-        //agenteSeco.teste(this.local, agenteSeco);
-        agenteOrganico.teste(this.matriz, agenteOrganico);
-        //sagenteEletronico.teste(this.local, agenteEletronico);
-
     }
 }
