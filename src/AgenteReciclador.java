@@ -19,23 +19,27 @@ public class AgenteReciclador {
     }
 
     public Boolean temCapacidade(int num){
+
         if (capacidade == 4){
             return false;
         }else{
             return true;
         }
+
     }
 
     public void moveAgenteParaEsquerda(String[][] matriz, AgenteReciclador ag){
-        ag.setCapacidade(ag.getCapacidade() + 1); // Talvez precise colocar em outro lugar
+
+        ag.setCapacidade(ag.getCapacidade() + 1); // TODO: colocar em outro lugar
         matriz[ag.getLinha()][ag.getColuna()] = "-";
         ag.setLinha(ag.getLinha());
         ag.setColuna(ag.getColuna() - 1);
         matriz[ag.getLinha()][ag.getColuna()] = ag.getNome();
+
     }
 
     public void moveAgenteParaDireita(String[][] matriz, AgenteReciclador ag){
-        ag.setCapacidade(ag.getCapacidade() + 1); // Talvez precise colocar em outro lugar
+        ag.setCapacidade(ag.getCapacidade() + 1); // TODO: colocar em outro lugar
         matriz[ag.getLinha()][ag.getColuna()] = "-";
         ag.setLinha(ag.getLinha());
         ag.setColuna(ag.getColuna() + 1);
@@ -43,66 +47,80 @@ public class AgenteReciclador {
     }
 
     public void moveAgenteParaCima(String[][] matriz, AgenteReciclador ag){
-        ag.setCapacidade(ag.getCapacidade() + 1); // Talvez precise colocar em outro lugar
+        ag.setCapacidade(ag.getCapacidade() + 1); // TODO: colocar em outro lugar
         matriz[ag.getLinha()][ag.getColuna()] = "-";
         ag.setLinha(ag.getLinha() - 1);
         ag.setColuna(ag.getColuna());
         matriz[ag.getLinha()][ag.getColuna()] = ag.getNome();
     }
 
-    public void moveAgenteParaBaixo(String[][] matriz, AgenteReciclador ag){
-        ag.setCapacidade(ag.getCapacidade() + 1); // Talvez precise colocar em outro lugar
-        matriz[ag.getLinha()][ag.getColuna()] = "-";
-        ag.setLinha(ag.getLinha() + 1);
-        ag.setColuna(ag.getColuna());
-        matriz[ag.getLinha()][ag.getColuna()] = ag.getNome();
+    public void moveAgenteParaBaixo(String[][] matriz, AgenteReciclador agente){
+
+        agente.setCapacidade(agente.getCapacidade() + 1); // TODO: colocar em outro lugar
+        matriz[agente.getLinha()][agente.getColuna()] = "-";
+        agente.setLinha(agente.getLinha() + 1);
+        agente.setColuna(agente.getColuna());
+        matriz[agente.getLinha()][agente.getColuna()] = agente.getNome();
+
     }
 
-    public void teste(String[][] matriz, AgenteReciclador ag) {
-        if(ag.getLinha() == 1 || ag.getLinha() == 4 || ag.getLinha() == 7 || ag.getLinha() == 10){
-//================================================================================ESQUERDA
-            if(ag.getNome() == "As"){
+    public void teste(String[][] matriz, AgenteReciclador agente) {
+
+        Boolean isAgenteEmLinhaEntreCasas = agente.getLinha() == 1 ||
+                                            agente.getLinha() == 4 ||
+                                            agente.getLinha() == 7 ||
+                                            agente.getLinha() == 10;
+
+        if(isAgenteEmLinhaEntreCasas) {
+
+            //======================================================= ESQUERDA
+
+            if(agente.getNome() == "As"){
                 // Olha a coluna da esquerda
-                if(matriz[ag.getLinha()][ag.getColuna() - 1] == "S"){
-                    moveAgenteParaEsquerda(matriz, ag);
+                if(matriz[agente.getLinha()][agente.getColuna() - 1] == "S"){
+                    moveAgenteParaEsquerda(matriz, agente);
                 }
-            }else if(ag.getNome() == "Ae"){
+            }else if(agente.getNome() == "Ae"){
                 // Olha a coluna da esquerda
-                if(matriz[ag.getLinha()][ag.getColuna() - 1] == "E"){
-                    moveAgenteParaEsquerda(matriz, ag);
+                if(matriz[agente.getLinha()][agente.getColuna() - 1] == "E"){
+                    moveAgenteParaEsquerda(matriz, agente);
                 }
             }else {
             // Olha a coluna da esquerda
-                if (matriz[ag.getLinha()][ag.getColuna() - 1] == "O") {
-                    moveAgenteParaEsquerda(matriz, ag);
+                if (matriz[agente.getLinha()][agente.getColuna() - 1] == "O") {
+                    moveAgenteParaEsquerda(matriz, agente);
                 }else{
-                    moveAgenteParaEsquerda(matriz, ag);
+                    moveAgenteParaEsquerda(matriz, agente);
                 }
             }
 //================================================================================DIREITA
-            if(ag.getNome() == "As"){
+            if(agente.getNome() == "As"){
                 // Olha a coluna da DIREITA
-                if(matriz[ag.getLinha()][ag.getColuna() + 1] == "S"){
-                    moveAgenteParaDireita(matriz, ag);
+                if(matriz[agente.getLinha()][agente.getColuna() + 1] == "S"){
+                    moveAgenteParaDireita(matriz, agente);
                 }
-            }else if(ag.getNome() == "Ae"){
+            }else if(agente.getNome() == "Ae"){
                 // Olha a coluna da DIREITA
-                if(matriz[ag.getLinha()][ag.getColuna() + 1] == "E"){
-                    moveAgenteParaDireita(matriz, ag);
+                if(matriz[agente.getLinha()][agente.getColuna() + 1] == "E"){
+                    moveAgenteParaDireita(matriz, agente);
                 }
             }else {
                 // Olha a coluna da DIREITA
-                if (matriz[ag.getLinha()][ag.getColuna() + 1] == "O") {
-                    moveAgenteParaDireita(matriz, ag);
+                if (matriz[agente.getLinha()][agente.getColuna() + 1] == "O") {
+                    moveAgenteParaDireita(matriz, agente);
                 }
             }
-        }else{
-            moveAgenteParaBaixo(matriz, ag);
+        } else {
+
+            // TODO: caso o agente esteja na ultima linha, deve subir
+
+            moveAgenteParaBaixo(matriz, agente);
+
         }
-//            matriz[ag.getLinha() + 1][ag.getColuna()]
-//            matriz[ag.getLinha() - 1][ag.getColuna()]
-//            matriz[ag.getLinha()][ag.getColuna() - 1]
-//            matriz[ag.getLinha()][ag.getColuna() + 1]
+//            matriz[agente.getLinha() + 1][agente.getColuna()]
+//            matriz[agente.getLinha() - 1][agente.getColuna()]
+//            matriz[agente.getLinha()][agente.getColuna() - 1]
+//            matriz[agente.getLinha()][agente.getColuna() + 1]
     }
 
     public String getNome() {
@@ -136,4 +154,5 @@ public class AgenteReciclador {
     public void setColuna(int coluna) {
         this.coluna = coluna;
     }
+
 }

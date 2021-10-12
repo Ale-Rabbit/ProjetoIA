@@ -2,8 +2,8 @@ import java.util.Random;
 
 public class Ambiente {
 
-    private String[][] local;
-    Random aleatorio = new Random();
+    private String[][] matriz;
+
     AgenteReciclador agenteSeco = new AgenteReciclador("As", 0, 7);
     AgenteReciclador agenteOrganico = new AgenteReciclador("Ao", 0, 6);
     AgenteReciclador agenteEletronico = new AgenteReciclador("Ae", 0, 8);
@@ -15,26 +15,30 @@ public class Ambiente {
     public static final String resetaCor = "\u001B[0m";
 
     public Ambiente() {
-        this.local = new String[12][15];
 
-        local[0][6] = agenteOrganico.getNome();
-        local[0][7] = agenteSeco.getNome();
-        local[0][8] = agenteEletronico.getNome();
-        local[11][6] = "Ls";
-        local[11][7] = "Le";
-        local[11][8] = "Lo";
+        this.matriz = new String[12][15];
+
+        matriz[0][6] = agenteOrganico.getNome();
+        matriz[0][7] = agenteSeco.getNome();
+        matriz[0][8] = agenteEletronico.getNome();
+        matriz[11][6] = "Ls";
+        matriz[11][7] = "Le";
+        matriz[11][8] = "Lo";
+
     }
 
     public String geraLixo() {
-        int propabilidade = aleatorio.nextInt(20);
 
-        if (propabilidade >= 0 && propabilidade <= 5) {
+        int numeroAleatorio = new Random().nextInt(20);
+
+        if (numeroAleatorio >= 0 && numeroAleatorio <= 5) {
             return "S";
-        } else if (propabilidade >= 6 && propabilidade <= 10) {
+        } else if (numeroAleatorio >= 6 && numeroAleatorio <= 10) {
                 return "E";
-        } else if (propabilidade >= 11 && propabilidade <= 15) {
+        } else if (numeroAleatorio >= 11 && numeroAleatorio <= 15) {
                 return "O";
         }
+
         return "-";
     }
 
@@ -60,15 +64,15 @@ public class Ambiente {
                 Boolean isCampoParaAvenida = (l != 0 && l != 11) && (c >= 6 || c != 7 || c != 8);
 
                 if (isCampoParaCasas) {
-                    this.local[l][c] = "C";
+                    this.matriz[l][c] = "C";
                 } else if (isCampoParaAvenida) {
-                    this.local[l][c] = "-";
+                    this.matriz[l][c] = "-";
                 }
 
-                Boolean isCampoParaLixo = this.local[l][c] == "-" && c != 6 && c != 7 && c != 8;
+                Boolean isCampoParaLixo = this.matriz[l][c] == "-" && c != 6 && c != 7 && c != 8;
 
                 if (isCampoParaLixo) {
-                    this.local[l][c] = geraLixo();
+                    this.matriz[l][c] = geraLixo();
                 }
 
             }
@@ -77,41 +81,44 @@ public class Ambiente {
     }
 
     public void exibeAmbiente() {
+
         for (int l = 0; l <= 11; l++) {
             for (int c = 0; c <= 14; c++) {
 
                 String testaUltimoElemento = (c == 14) ? "\n" : " ";
-                String testaEspaco = local[l][c].length() == 2 ? "" : " ";
+                String testaEspaco = matriz[l][c].length() == 2 ? "" : " ";
 
-                if(this.local[l][c].equalsIgnoreCase("C") ) {
-                    System.out.print(pintaAmarelo + " " + this.local[l][c] + " " + resetaCor + testaUltimoElemento);
+                if(this.matriz[l][c].equalsIgnoreCase("C") ) {
+                    System.out.print(pintaAmarelo + " " + this.matriz[l][c] + " " + resetaCor + testaUltimoElemento);
 
-                }else if(this.local[l][c].equalsIgnoreCase("S")){
-                    System.out.print(pintaVerde + " " + this.local[l][c] + " "  + resetaCor + testaUltimoElemento);
+                }else if(this.matriz[l][c].equalsIgnoreCase("S")){
+                    System.out.print(pintaVerde + " " + this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
 
-                }else if(this.local[l][c].equalsIgnoreCase("E")) {
-                    System.out.print(pintaCinza + " " + this.local[l][c] + " "  + resetaCor + testaUltimoElemento);
+                }else if(this.matriz[l][c].equalsIgnoreCase("E")) {
+                    System.out.print(pintaCinza + " " + this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
 
-                }else if(this.local[l][c].equalsIgnoreCase("O")) {
-                    System.out.print(pintaVermelho + " " + this.local[l][c] + " "  + resetaCor + testaUltimoElemento);
+                }else if(this.matriz[l][c].equalsIgnoreCase("O")) {
+                    System.out.print(pintaVermelho + " " + this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
 
-                }else if (this.local[l][c].equalsIgnoreCase("Lo")){
-                    System.out.print(pintaVermelho +  this.local[l][c] + " "  + resetaCor + testaUltimoElemento);
+                }else if (this.matriz[l][c].equalsIgnoreCase("Lo")){
+                    System.out.print(pintaVermelho +  this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
 
-                }else if (this.local[l][c].equalsIgnoreCase("Ls")){
-                    System.out.print(pintaVerde + this.local[l][c] + " "  + resetaCor + testaUltimoElemento);
+                }else if (this.matriz[l][c].equalsIgnoreCase("Ls")){
+                    System.out.print(pintaVerde + this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
 
-                }else if (this.local[l][c].equalsIgnoreCase("Le")){
-                    System.out.print(pintaCinza +  this.local[l][c] + " "  + resetaCor + testaUltimoElemento);
+                }else if (this.matriz[l][c].equalsIgnoreCase("Le")){
+                    System.out.print(pintaCinza +  this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
 
                 } else {
-                    System.out.print(" " + this.local[l][c] + testaEspaco + testaUltimoElemento);
+                    System.out.print(" " + this.matriz[l][c] + testaEspaco + testaUltimoElemento);
                 }
             }
 
         }
+
         //agenteSeco.teste(this.local, agenteSeco);
-        agenteOrganico.teste(this.local, agenteOrganico);
+        agenteOrganico.teste(this.matriz, agenteOrganico);
         //sagenteEletronico.teste(this.local, agenteEletronico);
+
     }
 }

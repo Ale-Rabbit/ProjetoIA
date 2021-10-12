@@ -21,3 +21,5 @@
 
 # IDE #
 *.idea
+.classpath
+.project
