@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -6,23 +7,46 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         Ambiente ambiente = new Ambiente();
-
-        System.out.println("Matriz inicial:");
-
         ambiente.populaMatriz();
 
-        System.out.println("\nDigite para os agentes andarem na matriz\n");
+        System.out.println("Digite 1 para executar passo a passo ou 2 para executar automaticamente: ");
+        String resposta = scanner.next();
 
-        String input;
+        if (resposta.equalsIgnoreCase("1")) {
 
-        do {
-            ambiente.exibeAmbiente();
-            System.out.println("\n");
-            input = scanner.next();
-        } while (!input.equalsIgnoreCase("x"));
+            String input;
 
-        System.out.println("\nProcesso finalizado\n");
+            do {
 
+                ambiente.exibeAmbiente();
+                System.out.println("\n");
+                System.out.println("Digite qualquer coisa e tecle enter ou escreva 'Sair'.");
+                input = scanner.next();
+
+            } while (!input.equalsIgnoreCase("Sair"));
+
+            System.out.println("\nProcesso finalizado\n");
+
+        } else if (resposta.equalsIgnoreCase("2")) {
+
+            Boolean continuar;
+
+            do {
+
+                System.out.println("\n");
+                continuar = ambiente.exibeAmbiente();
+                System.out.println("\n");
+
+                TimeUnit.SECONDS.sleep(2);
+
+            } while (continuar);
+
+        } else {
+
+            System.out.println("Opção incorreta!");
+
+        }
     }
 
 }
+

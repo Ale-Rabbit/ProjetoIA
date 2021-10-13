@@ -9,6 +9,10 @@ public class Ambiente {
     AgenteReciclador agenteOrganico = new AgenteReciclador("Ao", 0, 6, "O", "Lo");
     AgenteReciclador agenteEletronico = new AgenteReciclador("Ae", 0, 8, "E", "Le");
 
+    AgenteLixeira lixeiraSeca = new AgenteLixeira("Ls", "S");
+    AgenteLixeira lixeiraOrganica = new AgenteLixeira("Lo", "O");
+    AgenteLixeira lixeiraEletronica = new AgenteLixeira("Le", "E");
+
     public static final String pintaAmarelo = "\u001B[43m";
     public static final String pintaVerde = "\u001B[42m";
     public static final String pintaCinza = "\u001B[100m";
@@ -22,9 +26,9 @@ public class Ambiente {
         matriz[0][6] = agenteOrganico.getNome();
         matriz[0][7] = agenteSeco.getNome();
         matriz[0][8] = agenteEletronico.getNome();
-        matriz[11][6] = "Ls";
-        matriz[11][7] = "Le";
-        matriz[11][8] = "Lo";
+        matriz[11][6] = lixeiraSeca.getNome();
+        matriz[11][7] = lixeiraEletronica.getNome();
+        matriz[11][8] = lixeiraOrganica.getNome();
 
     }
 
@@ -32,7 +36,7 @@ public class Ambiente {
 
         int numeroAleatorio = new Random().nextInt(20);
 
-        if (numeroAleatorio >= 0 && numeroAleatorio <= 5) {
+        if (numeroAleatorio >= 1 && numeroAleatorio <= 5) {
             return "S";
         } else if (numeroAleatorio >= 6 && numeroAleatorio <= 10) {
                 return "E";
@@ -41,16 +45,7 @@ public class Ambiente {
         }
 
         return "-";
-    }
 
-    public void movimentoAgente(){
-        int l = 0;
-        int c = 0;
-        for (l = 0; l <= 11; l++) {
-            for (c = 0; c <= 14; c++) {
-
-            }
-        }
     }
 
     public void populaMatriz() {
@@ -58,11 +53,11 @@ public class Ambiente {
         for (int l = 0; l <= 11; l++) {
             for (int c = 0; c <= 14; c++) {
 
-                Boolean isCampoParaCasas = (l == 0 || l == 2 || l == 3 || l == 5 ||
+                boolean isCampoParaCasas = (l == 0 || l == 2 || l == 3 || l == 5 ||
                                             l == 6 || l == 8 || l == 9 || l == 11) &&
                                             (c <= 5 || c >= 9);
 
-                Boolean isCampoParaAvenida = (l != 0 && l != 11) && (c >= 6 || c != 7 || c != 8);
+                boolean isCampoParaAvenida = (l != 0 && l != 11) && (c >= 6 || c != 7 || c != 8);
 
                 if (isCampoParaCasas) {
                     this.matriz[l][c] = "C";
@@ -70,7 +65,8 @@ public class Ambiente {
                     this.matriz[l][c] = "-";
                 }
 
-                Boolean isCampoParaLixo = this.matriz[l][c] == "-" && c != 6 && c != 7 && c != 8;
+                boolean isCampoParaLixo = this.matriz[l][c].equalsIgnoreCase("-") &&
+                                          c != 6 && c != 7 && c != 8;
 
                 if (isCampoParaLixo) {
                     this.matriz[l][c] = geraLixo();
@@ -81,70 +77,82 @@ public class Ambiente {
 
     }
 
-    public void exibeAmbiente() {
 
-        if (isFirstTime){
-            isFirstTime = false;
-        } else {
+    public Boolean exibeAmbiente() {
 
-           Boolean executarAgenteEletronico = false;
-           Boolean executarAgenteSeco = agenteOrganico.teste(this.matriz, agenteOrganico);
+        Boolean agentesAindaEmFuncionamento = !agenteSeco.getAgenteDesligou() ||
+                                              !agenteOrganico.getAgenteDesligou() ||
+                                              !agenteEletronico.getAgenteDesligou();
+
+        if (agentesAindaEmFuncionamento) {
+
+            if (isFirstTime) {
+                isFirstTime = false;
+            } else {
+
+                Boolean executarAgenteEletronico = false;
+                Boolean executarAgenteSeco = agenteOrganico.teste(this.matriz, agenteOrganico, lixeiraOrganica);
 
 
-           if (executarAgenteSeco){
-                executarAgenteEletronico = agenteSeco.teste(this.matriz, agenteSeco);
-           }
-
-            if (executarAgenteEletronico){
-                agenteEletronico.teste(this.matriz, agenteEletronico);
-            }
-
-        }
-
-        for (int l = 0; l <= 11; l++) {
-            for (int c = 0; c <= 14; c++) {
-
-                String testaUltimoElemento = (c == 14) ? "\n" : " ";
-                String testaEspaco = matriz[l][c].length() == 2 ? "" : " ";
-
-                if(this.matriz[l][c].equalsIgnoreCase("C") ) {
-                    System.out.print(pintaAmarelo + " " + this.matriz[l][c] + " " + resetaCor + testaUltimoElemento);
-
-                }else if(this.matriz[l][c].equalsIgnoreCase("S")){
-                    System.out.print(pintaVerde + " " + this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
-
-                }else if(this.matriz[l][c].equalsIgnoreCase("E")) {
-                    System.out.print(pintaCinza + " " + this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
-
-                }else if(this.matriz[l][c].equalsIgnoreCase("O")) {
-                    System.out.print(pintaVermelho + " " + this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
-
-                }else if (this.matriz[l][c].equalsIgnoreCase("Lo")){
-                    System.out.print(pintaVermelho +  this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
-
-                }else if (this.matriz[l][c].equalsIgnoreCase("Ls")){
-                    System.out.print(pintaVerde + this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
-
-                }else if (this.matriz[l][c].equalsIgnoreCase("Le")){
-                    System.out.print(pintaCinza +  this.matriz[l][c] + " "  + resetaCor + testaUltimoElemento);
-
-                }else if(this.matriz[l][c].length() == 3){
-
-                    if(this.matriz[l][c].equalsIgnoreCase("AsO") || this.matriz[l][c].equalsIgnoreCase("AeO")){
-                        System.out.print(pintaVermelho + this.matriz[l][c] + resetaCor + testaUltimoElemento);
-
-                    }else if(this.matriz[l][c].equalsIgnoreCase("AsE") || this.matriz[l][c].equalsIgnoreCase("AoE")){
-                        System.out.print(pintaCinza + this.matriz[l][c] + resetaCor + testaUltimoElemento);
-
-                    }else if(this.matriz[l][c].equalsIgnoreCase("AeS") || this.matriz[l][c].equalsIgnoreCase("AoS")) {
-                        System.out.print(pintaVerde + this.matriz[l][c] + resetaCor + testaUltimoElemento);
-
-                    }
-                }else {
-                    System.out.print(" " + this.matriz[l][c] + testaEspaco + testaUltimoElemento);
+                if (executarAgenteSeco) {
+                    executarAgenteEletronico = agenteSeco.teste(this.matriz, agenteSeco, lixeiraSeca);
                 }
+
+                if (executarAgenteEletronico) {
+                    agenteEletronico.teste(this.matriz, agenteEletronico, lixeiraEletronica);
+                }
+
+            }
+
+            for (int l = 0; l <= 11; l++) {
+                for (int c = 0; c <= 14; c++) {
+
+                    String testaUltimoElemento = (c == 14) ? "\n" : " ";
+                    String testaEspaco = matriz[l][c].length() == 2 ? "" : " ";
+
+                    if (this.matriz[l][c].equalsIgnoreCase("C")) {
+                        System.out.print(pintaAmarelo + " " + this.matriz[l][c] + " " + resetaCor + testaUltimoElemento);
+
+                    } else if (this.matriz[l][c].equalsIgnoreCase("S")) {
+                        System.out.print(pintaVerde + " " + this.matriz[l][c] + " " + resetaCor + testaUltimoElemento);
+
+                    } else if (this.matriz[l][c].equalsIgnoreCase("E")) {
+                        System.out.print(pintaCinza + " " + this.matriz[l][c] + " " + resetaCor + testaUltimoElemento);
+
+                    } else if (this.matriz[l][c].equalsIgnoreCase("O")) {
+                        System.out.print(pintaVermelho + " " + this.matriz[l][c] + " " + resetaCor + testaUltimoElemento);
+
+                    } else if (this.matriz[l][c].equalsIgnoreCase("Lo")) {
+                        System.out.print(pintaVermelho + this.matriz[l][c] + " " + resetaCor + testaUltimoElemento);
+
+                    } else if (this.matriz[l][c].equalsIgnoreCase("Ls")) {
+                        System.out.print(pintaVerde + this.matriz[l][c] + " " + resetaCor + testaUltimoElemento);
+
+                    } else if (this.matriz[l][c].equalsIgnoreCase("Le")) {
+                        System.out.print(pintaCinza + this.matriz[l][c] + " " + resetaCor + testaUltimoElemento);
+
+                    } else if (this.matriz[l][c].length() == 3) {
+
+                        if (this.matriz[l][c].equalsIgnoreCase("AsO") || this.matriz[l][c].equalsIgnoreCase("AeO")) {
+                            System.out.print(pintaVermelho + this.matriz[l][c] + resetaCor + testaUltimoElemento);
+
+                        } else if (this.matriz[l][c].equalsIgnoreCase("AsE") || this.matriz[l][c].equalsIgnoreCase("AoE")) {
+                            System.out.print(pintaCinza + this.matriz[l][c] + resetaCor + testaUltimoElemento);
+
+                        } else if (this.matriz[l][c].equalsIgnoreCase("AeS") || this.matriz[l][c].equalsIgnoreCase("AoS")) {
+                            System.out.print(pintaVerde + this.matriz[l][c] + resetaCor + testaUltimoElemento);
+
+                        }
+                    } else {
+                        System.out.print(" " + this.matriz[l][c] + testaEspaco + testaUltimoElemento);
+                    }
+                }
+
             }
 
         }
+
+        return agentesAindaEmFuncionamento;
+
     }
 }
